@@ -5,10 +5,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;//对齐的
+import javax.swing.border.Border;
 
 import tool.SnapShot;
 
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,6 +50,8 @@ public class App {
 		JLabel l1 = new JLabel();
 		l1.setVerticalAlignment(SwingConstants.TOP);
 		l1.setBounds(0, 31, 300, 530);
+		l1.setOpaque(true);// 不透明才能设置背景
+		l1.setBackground(new Color(0xf3f5f9));
 
 		// 加屏幕快照
 		Button b1 = new Button("snapshot");
@@ -91,11 +95,12 @@ public class App {
 		Timer timer = new Timer();
 		timer.schedule(new PrintTimer(myFrame), 300, 500);
 	}
-
 }
 
 class PrintTimer extends java.util.TimerTask {
 	JFrame f;
+	String[] m = { "Jan.", "Feb.", "Mar.", "Apr.", "May.", "June.", "July.",
+			"Aug.", "Sept.", "Oct.", "Nov.", "Dec." };
 
 	public PrintTimer(JFrame f) {
 		this.f = f;
@@ -104,9 +109,8 @@ class PrintTimer extends java.util.TimerTask {
 	public void run() {
 		// Date now=new Date();
 		Calendar c = Calendar.getInstance();
-		String TimeStr = String.format("%d/%d %d:%d:%d", c.get(Calendar.DATE),
-				c.get(Calendar.MONTH) + 1, c.get(Calendar.HOUR_OF_DAY),
-				c.get(Calendar.MINUTE), c.get(Calendar.SECOND));
+		String TimeStr = String.format("%02d/%s %tT", c.get(Calendar.DATE),
+				this.m[c.get(Calendar.MONTH)], c);
 		this.f.setTitle(TimeStr);
 	}
 }
@@ -184,7 +188,7 @@ class SnapshotButton implements ActionListener {
 		SnapShot cam = new SnapShot(s1.toString(), "png");//
 		cam.doSnapShot();
 
-		this.sb.append("<br>").append(s1).append("__done");
+		this.sb.append(s1).append("__done<br>");
 		this.l1.setText("<html>" + this.sb.toString() + "</html>");
 
 	}
