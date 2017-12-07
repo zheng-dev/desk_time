@@ -62,12 +62,24 @@ public class App {
 		});
 		b2.setBounds(105, 0, 100, 30);
 
+		Button b3 = new Button("0");
+		b3.addActionListener((ActionEvent e) -> {
+			if (b3.getLabel() != "0") {
+				b3.setLabel("0");
+				StopWatch.close();
+			} else {
+				StopWatch.instance().schedule(new StopWatch(b3), 0L, 1000);
+			}
+		});
+		b3.setBounds(205, 0, 100, 30);
+
 		// 加画布
 		JPanel p1 = new JPanel();
 		// JPanel p2 = new JPanel();
 		// p1.setSize(10, 200);
 		p1.add(b1);
 		p1.add(b2);
+		p1.add(b3);
 		p1.add(l1);
 		p1.setLayout(null);
 
@@ -96,6 +108,41 @@ class PrintTimer extends java.util.TimerTask {
 				c.get(Calendar.MONTH) + 1, c.get(Calendar.HOUR_OF_DAY),
 				c.get(Calendar.MINUTE), c.get(Calendar.SECOND));
 		this.f.setTitle(TimeStr);
+	}
+}
+
+// 跑表
+class StopWatch extends java.util.TimerTask {
+	Button b;
+	int a = 0;
+
+	static Timer t3;
+
+	/**
+	 * 取出timer
+	 * 
+	 * @return
+	 */
+	public static Timer instance() {
+		if (StopWatch.t3 == null) {
+			StopWatch.t3 = new Timer();
+			return StopWatch.t3;
+		} else
+			return StopWatch.t3;
+	}
+
+	public static void close() {
+		StopWatch.t3.cancel();
+		StopWatch.t3 = null;
+	}
+
+	public StopWatch(Button b) {
+		this.b = b;
+	}
+
+	public void run() {
+		this.a++;
+		this.b.setLabel(String.valueOf(this.a));
 	}
 }
 
