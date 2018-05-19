@@ -12,6 +12,10 @@ import tool.SnapShot;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Frame;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 //import javax.swing.JRootPane;
@@ -24,8 +28,6 @@ import java.util.Timer;
 import java.util.Calendar;
 
 public class App {
-	private final static long serialVersionUID = 1L;
-
 	public static void main(String[] args) {
 
 		JFrame myFrame = new JFrame();
@@ -34,6 +36,11 @@ public class App {
 			BufferedImage image;
 			image = ImageIO.read(App.class.getResource("/time.png"));
 			myFrame.setIconImage(image);
+			PopupMenu popupTi = new PopupMenu();// 弹出菜单
+			// MenuItem showItem = new MenuItem("Show");//菜单项
+			TrayIcon ti = new TrayIcon(image, "zzc_tool", popupTi);
+			SystemTray tray = SystemTray.getSystemTray();
+			tray.add(ti);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -89,7 +96,7 @@ public class App {
 
 		myFrame.add(p1);
 		// myFrame.add(p2);
-
+		myFrame.setType(java.awt.Window.Type.UTILITY);// 这种风格不显示在任务栏上
 		myFrame.setVisible(true);
 
 		Timer timer = new Timer();
@@ -167,6 +174,7 @@ class TimeWindowStateListioner implements WindowStateListener {
 	}
 }
 
+//截屏
 class SnapshotButton implements ActionListener {
 	JLabel l1;
 
